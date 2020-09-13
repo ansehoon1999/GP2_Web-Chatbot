@@ -35,12 +35,8 @@ document.getElementById("MSG").value= no.innerHTML;
 $(window).load(function() {
   $messages.mCustomScrollbar();
   setTimeout(function() {
-    serverMessage("다음으로는 문장 완성형 검사를 통해 너의 불안 원인을 밝혀낼 거야. 동의를 하면 '문장 완성형 검사 동의'라고 해줘");
-
+    serverMessage("심리 상담 챗봇입니다");
   }, 100);
-
-
-
 });
 
 function updateScrollbar() {
@@ -58,7 +54,31 @@ function insertMessage() {
     return false;
   }
   $('<div class="message message-personal">' + msg + '</div>').appendTo($('.mCSB_container')).addClass('new');
-  fetchmsg()
+
+  var url = 'http://localhost:3000/send-msg3';
+ const data = new URLSearchParams();
+
+   for (const pair of new FormData(document.getElementById("mymsg"))) {
+       data.append(pair[0], pair[1]);
+       console.log(pair)
+   }
+
+   console.log("abc",data)
+     fetch(url, {
+       method: 'POST',
+       body:data
+     }).then(res => res.json())
+      .then(response => {
+
+        setTimeout(function() {
+       console.log(response);
+      serverMessage(response.Reply);
+       speechSynthesis.speak( new SpeechSynthesisUtterance(response.Reply))
+}, 5000);
+
+      })
+       .catch(error => console.error('Error h:', error));
+
 
   $('.message-input').val(null);
   updateScrollbar();
@@ -88,30 +108,3 @@ function serverMessage(response2) {
    }, 100 + (Math.random() * 20) * 100);
 
  }
-
-
-function fetchmsg(){
-
-     var url = 'http://localhost:3000/send-msg2';
-
-      const data = new URLSearchParams();
-      for (const pair of new FormData(document.getElementById("mymsg"))) {
-          data.append(pair[0], pair[1]);
-          console.log(pair)
-      }
-
-      console.log("abc",data)
-        fetch(url, {
-          method: 'POST',
-          body:data
-        }).then(res => res.json())
-         .then(response => {
-          console.log(response);
-         serverMessage(response.Reply);
-          speechSynthesis.speak( new SpeechSynthesisUtterance(response.Reply))
-
-
-         })
-          .catch(error => console.error('Error h:', error));
-
-}
