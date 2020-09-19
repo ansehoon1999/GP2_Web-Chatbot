@@ -41,6 +41,14 @@
 
              <h3>결론 </h3>
              <span id="CAUSE3"></span>
+
+             <br>
+             <br>
+
+
+
+             <h3>컬러테라피 </h3>
+             <span id="ColorTherapy"></span>
            </div>
 
 
@@ -65,6 +73,7 @@
     appId: "1:640610345628:web:90901084f617325bc8c359",
     measurementId: "G-LBWDPD7WRS"
   };
+
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();
@@ -143,12 +152,58 @@
     }
     bigOne5.innerText = result;
     console.log(snap.val());
-
-
-
-
   });
+  var bigOne6 = document.getElementById('ColorTherapy');
+  var dbRef6 = firebase.database().ref().child('anxiety info').child('20200919194603');
+  dbRef6.on('value', function(snap) {
+    var red = snap.val().red;
+    var orange = snap.val().orange;
+    var yellow = snap.val().yellow;
+    var green = snap.val().green;
+    var blue = snap.val().blue;
+    var purple = snap.val().purple;
+    var pink = snap.val().pink;
 
+    var max = Math.max(red, orange, yellow, green, blue, purple, pink);
+    if(max == red) {
+      var color_result = "빨간색";
+      var color_explain = "기운을 북돋는 강렬한 빨강은 추진력이 필요할 때, 우울한 기분이 들 때나 몹시 지칠 때, 신체의 행동력과 에너지 등을 깨울 수 있는 색입니다. 그러므로, 내면에 집중된 정신을 밖으로 분산시켜, 무기력한 삶에 의욕을 불어넣어 줘 자신감을 높여주는 효과를 볼 수 있는 컬러입니다. 특히, 빨간색에는 아드레날린을 분비시키는 효과가 있어 혈압과 체온을 상승시켜주는 동시에, 원기를 불어넣어 줍니다";
+    }
+    else if(max == orange) {
+      var color_result = "주황색";
+      var color_explain = "따뜻하고 활발한 기운을 가진 주황색은 몸과 마음을 모두 데워주는 색으로, 상대에게 웃음이나 긍정적인 반응을 유발하고자 할 때 자주 사용됩니다. 정과 유대감이 강한 사람들이 이 색을 좋아합니다. 그러므로, 남의 잘못을 너그럽게 받아들이거나 용서해주는 역할을 할 뿐만 아니라, 마음에 안정을 가져다줍니다.";
+    }
+    else if(max == yellow) {
+      var color_result = "노란색";
+      var color_explain = "열린 마음을 상징하는 색으로, 내향적인 성향보다는 외향적인 성향을 드러냅니다. 그러므로, 노란색은 결정장애나 의욕 저하를 겪는 상황에 도움이 됩니다. 피에로의 의상에 노란색이 많이 들어간 이유도 스펀지 밥, 심슨 등 만화 캐릭터가 노란색으로 자주 만들어지는 이유도 이 때문입니다.";
+    }
+    else if(max == green) {
+      var color_result = "녹색";
+      var color_explain = "푸릇푸릇한 대자연을 연상케 해주는 초록색은 마음을 안정시키고 감정의 균형을 이뤄주는 역할을 합니다. 또 의학적으로도 눈의 피로를 덜어주어 시력에 좋은 색이라고 알려져 있으며, 정신건강에 긍정적인 효과를 얻을 수 있기에 우울증 및 스트레스를 받았을 때, 여유를 느끼고 싶을 때 지친 심신에 기운을 북돋워 줄 수 있습니다. 특히, 체내에 축적된 유해한 물질들을 제거해주기 때문에 디톡스와 동일한 효과를 기대할 수 있습니다. 그로 인해, 교감 신경계에도 도움이 됩니다. 균형 있는 상태나 편안함을 원할 때는 초록색을 보는 것을 추천합니다.";
+    }
+    else if(max == blue) {
+      var color_result = "파란색";
+      var color_explain = "차갑지만 차분한 톤으로 들끓었던 화를 가라앉혀 주는 효과를 가진 파란색은 마음을 진정시키고 인내심을 가질 수 있게 도와주는 컬러 중 하나입니다. 특히, 누군가의 호감이 필요할 때, 좋은 성과를 연결하기 위해 용기가 필요할 때, 불안감 및 불면증 해소에 도움이 됩니다. 욕망이 절제된 인상을 주며 스트레스를 줄여주기 때문입니다.";
+    }
+    else if(max == purple) {
+      var color_result = "보라색"
+      var color_explain = "범상치 않은 혼란의 색이라고 알려진 보라색은 부정적인 상황을 긍정적으로 치유하고 싶을 때, 우울증을 앓고 있을 때나 슬플 때 도움을 줍니다. 특히, 보라색은 뇌하수체에 영향을 주기 때문에 호르몬 활동을 통해 직접 사물에 관한 구체적인 지식을 이끄는 효능을 볼 수 있습니다. 그러므로 예술과 이론, 자극과 절제, 이성과 상상이 동시에 필요할 땐 보라색의 영향을 받는 것이 좋습니다.";
+    }
+    else if(max == pink) {
+      var color_result = "분홍색"
+      var color_explain = "누군가에게 기대고 싶을 때, 분홍색은 안정적인 감정을 유지할 수 있도록 따뜻하게 물들여주는 역할을 합니다. 혼란스러운 감정이거나 우울증이 있을 때 포근하고 온순한 기운을 뇌로 공급해 줍니다. 이를 통해, 교감신경계를 자극하여 신경쇠약이나 만성피로, 혼란스러울 때 감정을 추스를 수 있게 도와줍니다.";
+    }
+
+    console.log(max);
+      bigOne6.innerText = color_result + "\n" + color_explain;
+
+        const colorContact = {
+          result_color: color_result,
+        result_explain: color_explain
+      };
+      var d = new Date();
+      firebase.database().ref('anxiety info').child('colortherapy').set(colorContact);
+    });
 
 
 
