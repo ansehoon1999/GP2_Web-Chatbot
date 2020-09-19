@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link href='anxiety_report_css.css' rel='stylesheet' type='text/css'>
+
+    <title></title>
+  </head>
+
+  <body>
+    <div class="container">
+         <div class="header">
+           <div>
+             <h1>토닥이의 불안 검사 레포트</h1>
+           </div>
+       <br>
+
+           <div class="full-name">
+             <span>이름: </span>
+             <span id="NAME"></span>
+
+             <br>
+             <br>
+
+             <h3>STAI 불안 점수</h3>
+             <span id="POINT"></span>
+
+             <br>
+             <br>
+
+
+             <h3>불안의 원인</h3>
+             <span id="CAUSE1"></span>
+             <span> - </span>
+             <span id="CAUSE2"></span>
+
+             <br>
+             <br>
+
+
+
+             <h3>결론 </h3>
+             <span id="CAUSE3"></span>
+           </div>
+
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-database.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-analytics.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyAvuLfFrU8j2I5n4eNUWPwS8mJ5JvCGyB4",
+    authDomain: "tdtd-project-28cc9.firebaseapp.com",
+    databaseURL: "https://tdtd-project-28cc9.firebaseio.com",
+    projectId: "tdtd-project-28cc9",
+    storageBucket: "tdtd-project-28cc9.appspot.com",
+    messagingSenderId: "640610345628",
+    appId: "1:640610345628:web:90901084f617325bc8c359",
+    measurementId: "G-LBWDPD7WRS"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+
+  var bigOne1 = document.getElementById('NAME');
+  var dbRef1 = firebase.database().ref().child('anxiety info').child('20200915201740').child('name');
+  dbRef1.on('value', snap => bigOne1.innerText = snap.val());
+
+  var bigOne2 = document.getElementById('POINT');
+  var dbRef2 = firebase.database().ref().child('anxiety info').child('20200915201740');
+  dbRef2.on('value', function(snap) {
+    var result = "현재 불안 검사를 통한 불안 점수의 합은 " + snap.val().anxiety + "점이며 상태는 '"+ snap.val().type + "'이라고 할 수 있다";
+      console.log(result);
+      bigOne2.innerText = result;
+    });
+  var bigOne3 = document.getElementById('CAUSE1');
+  var dbRef3 = firebase.database().ref().child('anxiety info').child('20200915201740').child('first');
+  dbRef3.on('value', snap => bigOne3.innerText = snap.val());
+
+  var bigOne4 = document.getElementById('CAUSE2');
+  var dbRef4 = firebase.database().ref().child('anxiety info').child('20200915201740').child('second');
+  dbRef4.on('value', snap => bigOne4.innerText = snap.val());
+
+
+  var bigOne5 = document.getElementById('CAUSE3');
+  var dbRef5 = firebase.database().ref().child('anxiety info').child('20200919001522');
+  dbRef5.on('value', function(snap) {
+    if(snap.val().second.includes('아버지')) {
+      var result = "검사를 한 이 친구의 주된 불안의 원인은 가족 중에서도 아버지가 가장 큰 원인이라고 할 수 있다. 아버지란 존재에 대해 물어봤을 때 '" + snap.val().fifth + "' 라는 생각을 보편적인 아버지라고 생각하고 있다. 하지만 자신의 아버지에 대해서 '"+ snap.val().third + "'라고 말한 것을 통해 자신의 아버지에 대한 생각을 알 수 있고 현재 아버지와는 '" + snap.val().forth + "' 라고 말한 것을 통해 현재 상황을 알 수 있다.";
+      console.log(result);
+      }
+
+    else if(snap.val().second.includes('어머니')) {
+      var result = "검사를 한 이 친구의 주된 불안의 원인은 가족 중에서도 어머니가 가장 큰 원인이라고 할 수 있다. 어머니란 존재에 대해 물어봤을 때 '" + snap.val().fifth + "' 라는 생각을 보편적인 어머니라고 생각하고 있다. 하지만 자신의 어머니에 대해서 '"+ snap.val().third + "'라고 말한 것을 통해 자신의 어머니에 대한 생각을 알 수 있고 현재 어머니와는 '" + snap.val().forth + "' 라고 말한 것을 통해 현재 상황을 알 수 있다.";
+    }
+    else if(snap.val().second.includes('형제 자매')) {
+      var result = "검사를 한 이 친구의 주된 불안의 원인은 가족 중에서도 형제/자매가 가장 큰 원인이라고 할 수 있다. 형제/자매란 존재에 대해 물어봤을 때 '" + snap.val().fifth + "' 라는 생각을 보편적인 형제/자매라고 생각하고 있다. 하지만 자신의 형제/자매에 대해서 '"+ snap.val().third + "'라고 말한 것을 통해 자신의 형제/자매에 대한 생각을 알 수 있고 현재 형제/자매와는 '" + snap.val().forth + "' 라고 말한 것을 통해 현재 상황을 알 수 있다.";
+    }
+    else if(snap.val().second.includes('가족 구성원 자체')) {
+      var result = "검사를 한 이 친구의 주된 불안의 원인은 가족 자체 모든 구성원이 가장 큰 원인이라고 할 수 있다. 주변 가족에 대한 생각을 물어봤을 때 '" + snap.val().fifth + "' 라는 생각을 보편적인 가족이라고 생각하고 있다. 하지만 자신의 가정에 대해서 '"+ snap.val().third + "'라고 말한 것을 통해 자신의 가정에 대한 생각을 알 수 있고 현재 가족 구성원들이 생각하는 자신의 모습은 '" + snap.val().forth + "' 라고 말한 것을 통해 현재 상황을 알 수 있다.";
+    }
+
+    else if(snap.val().second.includes('남성')) {
+      var result = "검사를 한 이 친구의 주된 불안의 원인은 바로 '남성'이 가장 큰 원인이라고 할 수 있다. 남자란 존재에 대해서 '" + snap.val().forth + "' 라는 생각을 보편적으로 가지고 있다. 또한 특히 남자에 대해서 무엇보다 좋지 않게 생각하는 부분이 있는데 '"+ snap.val().third + "'라고 말한 것을 통해 남자에 대한 생각을 알 수 있다.";
+    }
+
+    else if(snap.val().second.includes('여성')) {
+      var result = "검사를 한 이 친구의 주된 불안의 원인은 바로 '여성'이 가장 큰 원인이라고 할 수 있다. 여성이란 존재에 대해서 '" + snap.val().forth + "' 라는 생각을 보편적으로 가지고 있다. 또한 바라는 여인상에 대해 물어봤을 때 '"+ snap.val().third + "'라고 말한 것을 통해 여성에 대한 생각을 알 수 있다.";
+    }
+
+    else if(snap.val().second.includes('이성 관계 및 결혼 생활')) {
+      var result = "검사를 한 이 친구의 주된 불안의 원인은 바로 '이성관계 및 결혼생활'이 가장 큰 원인이라고 할 수 있다. 이성 관계를 바라볼 때 '" + snap.val().third + "' 라는 생각을 보편적으로 가지고 있다. 또한 결혼 생활에에 대해 물어봤을 때 '"+ snap.val().forth + "'라고 말한 것을 통해 결혼 생활에 대한 생각을 알 수 있다. 또한 성생활에 대한 생각 역시 알 수 있었는데 성교에 대해서 '" + snap.val().fifth + "' 라고 생각하고 있으며 자신의 성생활에 대해서는 '" + snap.val().sixth + "' 한 생각을 가지고 있음을 알 수 있었다.";
+    }
+    else if(snap.val().second.includes('친구 및 지인')) {
+      var result = "검사를 한 이 친구의 주된 불안의 원인은 바로 '친구 및 지인'이 가장 큰 원인이라고 할 수 있다. 가장 좋아하는 친구 및 지인은 '" + snap.val().third + "' 라는 생각을 보편적으로 가지고 있으며 '" + snap.val().fifth + "' 를 통해서는 가장 좋아하는 사람에 대해서 알 수 있었다. 또한 싫어하는 사람에 대해서도 '" + snap.val().forth + "'한 생각을 알 수 있었으며 자신이 없을 때 친구는 '"+ snap.val().sixth + "'라고 말한 것을 통해 친구 및 지인에 대한 불안감을 느끼는 부분을 알 수 있었다.";
+    }
+
+    else if(snap.val().second.includes('권위자')) {
+      var result = "검사를 한 이 친구의 주된 불안의 원인은 바로 '권위자 혹은 윗사람'이 가장 큰 원인이라고 할 수 있다. 평소 윗사람에 대해서는 '" + snap.val().third + "' 라는 생각을 보편적으로 가지고 있으며 '" + snap.val().forth + "' 를 통해서는 윗사람으로부터 불안해하는 모습을 볼 수 있다.";
+    }
+    else if(snap.val().second.includes('두려움')) {
+      var result = "검사를 한 이 친구의 주된 불안의 원인은 바로 '두려움'이 가장 큰 원인이라고 할 수 있다. 두려움의 직접적인 원인으로는 '" + snap.val().third + "' 라고 적은 문장을 통해 두려움의 원인을 알 수 있으며  '" + snap.val().forth + "' 를 통해서는 두려움으로 인해서 발생하는 직접적인 어려움에 대해서 알 수 있다.";
+    }
+    else if(snap.val().second.includes('죄책감')) {
+      var result = "검사를 한 이 친구의 주된 불안의 원인은 바로 '죄책감'이 가장 큰 원인이라고 할 수 있다. 죄책감의 직접적인 원인으로는 '" + snap.val().third + "' 라고 적은 문장을 통해 죄책감을 야기한 사건을 알 수 있으며  '" + snap.val().forth + "' 를 통해서 죄책감의 원인에 대해서 알 수 있다. 또한 죄책감으로 인해서 발생하는 직접적인 어려움을 '" + snap.val().fifth + "' 을 통해서 알 수 있다. ";
+
+    }
+    else if(snap.val().second.includes('자신의 능력')) {
+      var result = "검사를 한 이 친구의 주된 불안의 원인은 바로 '자신의 능력에 대한 부정적 생각'이 가장 큰 원인이라고 할 수 있다. 자신의 능력에 대해 '" + snap.val().third + "' 라고 인지하고 있으며 이 결점으로 부터 '" + snap.val().forth + "' 라는 문장을 통해서 직접적인 어려움에 대해서 알 수 있었다.";
+    }
+    else if(snap.val().second.includes('자신의 과거')) {
+      var result = "검사를 한 이 친구의 주된 불안의 원인은 바로 '자신의 과거에 대한 부정적 생각'이 가장 큰 원인이라고 할 수 있다. 자신의 과거에 대해 '" + snap.val().third + "' 라고 일어났던 일을 이야기하고 있으며 이 과거으로 부터 '" + snap.val().forth + "' 라는 문장을 통해서 직접적인 어려움에 대해서 알 수 있었다.";
+    }
+    else if(snap.val().second.includes('자신의 미래')) {
+      var result = "검사를 한 이 친구의 주된 불안의 원인은 바로 '자신의 미래에 대한 부정적 생각'이 가장 큰 원인이라고 할 수 있다. 자신의 미래에 대해 '" + snap.val().third + "' 라고 일어났던 일을 이야기하고 있으며 이 미래로 부터 '" + snap.val().forth + "' 라는 문장을 통해서 직접적인 어려움에 대해서 알 수 있었다.";
+    }
+    bigOne5.innerText = result;
+    console.log(snap.val());
+
+
+
+
+  });
+
+
+
+
+
+
+</script>
+  </body>
+</html>
