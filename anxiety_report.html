@@ -16,8 +16,6 @@
        <br>
 
            <div class="full-name">
-             <span>이름: </span>
-             <span id="NAME"></span>
 
              <br>
              <br>
@@ -31,8 +29,6 @@
 
              <h3>불안의 원인</h3>
              <span id="CAUSE1"></span>
-             <span> - </span>
-             <span id="CAUSE2"></span>
 
              <br>
              <br>
@@ -40,7 +36,7 @@
 
 
              <h3>결론 </h3>
-             <span id="CAUSE3"></span>
+             <span id="CAUSE2"></span>
 
              <br>
              <br>
@@ -49,6 +45,9 @@
 
              <h3>컬러테라피 </h3>
              <span id="ColorTherapy"></span>
+             <br>
+             <span id="ColorTherapyAbout"></span>
+
            </div>
 
 
@@ -61,8 +60,7 @@
 <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-analytics.js"></script>
 
 <script>
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var result1 = "";
   var firebaseConfig = {
     apiKey: "AIzaSyAvuLfFrU8j2I5n4eNUWPwS8mJ5JvCGyB4",
     authDomain: "tdtd-project-28cc9.firebaseapp.com",
@@ -78,137 +76,28 @@
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();
 
-  var bigOne1 = document.getElementById('NAME');
-  var dbRef1 = firebase.database().ref().child('anxiety info').child('20200915201740').child('name');
-  dbRef1.on('value', snap => bigOne1.innerText = snap.val());
-
   var bigOne2 = document.getElementById('POINT');
-  var dbRef2 = firebase.database().ref().child('anxiety info').child('20200915201740');
-  dbRef2.on('value', function(snap) {
-    var result = "현재 불안 검사를 통한 불안 점수의 합은 " + snap.val().anxiety + "점이며 상태는 '"+ snap.val().type + "'이라고 할 수 있다";
-      console.log(result);
-      bigOne2.innerText = result;
-    });
+  var dbRef2 = firebase.database().ref().child('anxiety information for report').child('SymBmxp1asWBm1GYB3Z8uUibPsD2').child('about_anxiety'); // myuid
+  dbRef2.on('value', snap => bigOne2.innerText = snap.val());
+
+
   var bigOne3 = document.getElementById('CAUSE1');
-  var dbRef3 = firebase.database().ref().child('anxiety info').child('20200915201740').child('first');
+  var dbRef3 = firebase.database().ref().child('anxiety information for report').child('SymBmxp1asWBm1GYB3Z8uUibPsD2').child('cause1');
   dbRef3.on('value', snap => bigOne3.innerText = snap.val());
 
-  var bigOne4 = document.getElementById('CAUSE2');
-  var dbRef4 = firebase.database().ref().child('anxiety info').child('20200915201740').child('second');
-  dbRef4.on('value', snap => bigOne4.innerText = snap.val());
 
+  var bigOne5 = document.getElementById('CAUSE2');
+  var dbRef5 = firebase.database().ref().child('anxiety information for report').child('SymBmxp1asWBm1GYB3Z8uUibPsD2').child('cause2');
+  dbRef5.on('value', snap => bigOne5.innerText = snap.val());
 
-  var bigOne5 = document.getElementById('CAUSE3');
-  var dbRef5 = firebase.database().ref().child('anxiety info').child('20200919001522');
-  dbRef5.on('value', function(snap) {
-    if(snap.val().second.includes('아버지')) {
-      var result = "검사를 한 이 친구의 주된 불안의 원인은 가족 중에서도 아버지가 가장 큰 원인이라고 할 수 있다. 아버지란 존재에 대해 물어봤을 때 '" + snap.val().fifth + "' 라는 생각을 보편적인 아버지라고 생각하고 있다. 하지만 자신의 아버지에 대해서 '"+ snap.val().third + "'라고 말한 것을 통해 자신의 아버지에 대한 생각을 알 수 있고 현재 아버지와는 '" + snap.val().forth + "' 라고 말한 것을 통해 현재 상황을 알 수 있다.";
-      console.log(result);
-      }
-
-    else if(snap.val().second.includes('어머니')) {
-      var result = "검사를 한 이 친구의 주된 불안의 원인은 가족 중에서도 어머니가 가장 큰 원인이라고 할 수 있다. 어머니란 존재에 대해 물어봤을 때 '" + snap.val().fifth + "' 라는 생각을 보편적인 어머니라고 생각하고 있다. 하지만 자신의 어머니에 대해서 '"+ snap.val().third + "'라고 말한 것을 통해 자신의 어머니에 대한 생각을 알 수 있고 현재 어머니와는 '" + snap.val().forth + "' 라고 말한 것을 통해 현재 상황을 알 수 있다.";
-    }
-    else if(snap.val().second.includes('형제 자매')) {
-      var result = "검사를 한 이 친구의 주된 불안의 원인은 가족 중에서도 형제/자매가 가장 큰 원인이라고 할 수 있다. 형제/자매란 존재에 대해 물어봤을 때 '" + snap.val().fifth + "' 라는 생각을 보편적인 형제/자매라고 생각하고 있다. 하지만 자신의 형제/자매에 대해서 '"+ snap.val().third + "'라고 말한 것을 통해 자신의 형제/자매에 대한 생각을 알 수 있고 현재 형제/자매와는 '" + snap.val().forth + "' 라고 말한 것을 통해 현재 상황을 알 수 있다.";
-    }
-    else if(snap.val().second.includes('가족 구성원 자체')) {
-      var result = "검사를 한 이 친구의 주된 불안의 원인은 가족 자체 모든 구성원이 가장 큰 원인이라고 할 수 있다. 주변 가족에 대한 생각을 물어봤을 때 '" + snap.val().fifth + "' 라는 생각을 보편적인 가족이라고 생각하고 있다. 하지만 자신의 가정에 대해서 '"+ snap.val().third + "'라고 말한 것을 통해 자신의 가정에 대한 생각을 알 수 있고 현재 가족 구성원들이 생각하는 자신의 모습은 '" + snap.val().forth + "' 라고 말한 것을 통해 현재 상황을 알 수 있다.";
-    }
-
-    else if(snap.val().second.includes('남성')) {
-      var result = "검사를 한 이 친구의 주된 불안의 원인은 바로 '남성'이 가장 큰 원인이라고 할 수 있다. 남자란 존재에 대해서 '" + snap.val().forth + "' 라는 생각을 보편적으로 가지고 있다. 또한 특히 남자에 대해서 무엇보다 좋지 않게 생각하는 부분이 있는데 '"+ snap.val().third + "'라고 말한 것을 통해 남자에 대한 생각을 알 수 있다.";
-    }
-
-    else if(snap.val().second.includes('여성')) {
-      var result = "검사를 한 이 친구의 주된 불안의 원인은 바로 '여성'이 가장 큰 원인이라고 할 수 있다. 여성이란 존재에 대해서 '" + snap.val().forth + "' 라는 생각을 보편적으로 가지고 있다. 또한 바라는 여인상에 대해 물어봤을 때 '"+ snap.val().third + "'라고 말한 것을 통해 여성에 대한 생각을 알 수 있다.";
-    }
-
-    else if(snap.val().second.includes('이성 관계 및 결혼 생활')) {
-      var result = "검사를 한 이 친구의 주된 불안의 원인은 바로 '이성관계 및 결혼생활'이 가장 큰 원인이라고 할 수 있다. 이성 관계를 바라볼 때 '" + snap.val().third + "' 라는 생각을 보편적으로 가지고 있다. 또한 결혼 생활에에 대해 물어봤을 때 '"+ snap.val().forth + "'라고 말한 것을 통해 결혼 생활에 대한 생각을 알 수 있다. 또한 성생활에 대한 생각 역시 알 수 있었는데 성교에 대해서 '" + snap.val().fifth + "' 라고 생각하고 있으며 자신의 성생활에 대해서는 '" + snap.val().sixth + "' 한 생각을 가지고 있음을 알 수 있었다.";
-    }
-    else if(snap.val().second.includes('친구 및 지인')) {
-      var result = "검사를 한 이 친구의 주된 불안의 원인은 바로 '친구 및 지인'이 가장 큰 원인이라고 할 수 있다. 가장 좋아하는 친구 및 지인은 '" + snap.val().third + "' 라는 생각을 보편적으로 가지고 있으며 '" + snap.val().fifth + "' 를 통해서는 가장 좋아하는 사람에 대해서 알 수 있었다. 또한 싫어하는 사람에 대해서도 '" + snap.val().forth + "'한 생각을 알 수 있었으며 자신이 없을 때 친구는 '"+ snap.val().sixth + "'라고 말한 것을 통해 친구 및 지인에 대한 불안감을 느끼는 부분을 알 수 있었다.";
-    }
-
-    else if(snap.val().second.includes('권위자')) {
-      var result = "검사를 한 이 친구의 주된 불안의 원인은 바로 '권위자 혹은 윗사람'이 가장 큰 원인이라고 할 수 있다. 평소 윗사람에 대해서는 '" + snap.val().third + "' 라는 생각을 보편적으로 가지고 있으며 '" + snap.val().forth + "' 를 통해서는 윗사람으로부터 불안해하는 모습을 볼 수 있다.";
-    }
-    else if(snap.val().second.includes('두려움')) {
-      var result = "검사를 한 이 친구의 주된 불안의 원인은 바로 '두려움'이 가장 큰 원인이라고 할 수 있다. 두려움의 직접적인 원인으로는 '" + snap.val().third + "' 라고 적은 문장을 통해 두려움의 원인을 알 수 있으며  '" + snap.val().forth + "' 를 통해서는 두려움으로 인해서 발생하는 직접적인 어려움에 대해서 알 수 있다.";
-    }
-    else if(snap.val().second.includes('죄책감')) {
-      var result = "검사를 한 이 친구의 주된 불안의 원인은 바로 '죄책감'이 가장 큰 원인이라고 할 수 있다. 죄책감의 직접적인 원인으로는 '" + snap.val().third + "' 라고 적은 문장을 통해 죄책감을 야기한 사건을 알 수 있으며  '" + snap.val().forth + "' 를 통해서 죄책감의 원인에 대해서 알 수 있다. 또한 죄책감으로 인해서 발생하는 직접적인 어려움을 '" + snap.val().fifth + "' 을 통해서 알 수 있다. ";
-
-    }
-    else if(snap.val().second.includes('자신의 능력')) {
-      var result = "검사를 한 이 친구의 주된 불안의 원인은 바로 '자신의 능력에 대한 부정적 생각'이 가장 큰 원인이라고 할 수 있다. 자신의 능력에 대해 '" + snap.val().third + "' 라고 인지하고 있으며 이 결점으로 부터 '" + snap.val().forth + "' 라는 문장을 통해서 직접적인 어려움에 대해서 알 수 있었다.";
-    }
-    else if(snap.val().second.includes('자신의 과거')) {
-      var result = "검사를 한 이 친구의 주된 불안의 원인은 바로 '자신의 과거에 대한 부정적 생각'이 가장 큰 원인이라고 할 수 있다. 자신의 과거에 대해 '" + snap.val().third + "' 라고 일어났던 일을 이야기하고 있으며 이 과거으로 부터 '" + snap.val().forth + "' 라는 문장을 통해서 직접적인 어려움에 대해서 알 수 있었다.";
-    }
-    else if(snap.val().second.includes('자신의 미래')) {
-      var result = "검사를 한 이 친구의 주된 불안의 원인은 바로 '자신의 미래에 대한 부정적 생각'이 가장 큰 원인이라고 할 수 있다. 자신의 미래에 대해 '" + snap.val().third + "' 라고 일어났던 일을 이야기하고 있으며 이 미래로 부터 '" + snap.val().forth + "' 라는 문장을 통해서 직접적인 어려움에 대해서 알 수 있었다.";
-    }
-    bigOne5.innerText = result;
-    console.log(snap.val());
-  });
   var bigOne6 = document.getElementById('ColorTherapy');
-  var dbRef6 = firebase.database().ref().child('anxiety info').child('20200919194603');
-  dbRef6.on('value', function(snap) {
-    var red = snap.val().red;
-    var orange = snap.val().orange;
-    var yellow = snap.val().yellow;
-    var green = snap.val().green;
-    var blue = snap.val().blue;
-    var purple = snap.val().purple;
-    var pink = snap.val().pink;
+  var dbRef6 = firebase.database().ref().child('anxiety information for report').child('SymBmxp1asWBm1GYB3Z8uUibPsD2').child('result_color');
+  dbRef6.on('value', snap => bigOne6.innerText = snap.val());
 
-    var max = Math.max(red, orange, yellow, green, blue, purple, pink);
-    if(max == red) {
-      var color_result = "빨간색";
-      var color_explain = "기운을 북돋는 강렬한 빨강은 추진력이 필요할 때, 우울한 기분이 들 때나 몹시 지칠 때, 신체의 행동력과 에너지 등을 깨울 수 있는 색입니다. 그러므로, 내면에 집중된 정신을 밖으로 분산시켜, 무기력한 삶에 의욕을 불어넣어 줘 자신감을 높여주는 효과를 볼 수 있는 컬러입니다. 특히, 빨간색에는 아드레날린을 분비시키는 효과가 있어 혈압과 체온을 상승시켜주는 동시에, 원기를 불어넣어 줍니다";
-    }
-    else if(max == orange) {
-      var color_result = "주황색";
-      var color_explain = "따뜻하고 활발한 기운을 가진 주황색은 몸과 마음을 모두 데워주는 색으로, 상대에게 웃음이나 긍정적인 반응을 유발하고자 할 때 자주 사용됩니다. 정과 유대감이 강한 사람들이 이 색을 좋아합니다. 그러므로, 남의 잘못을 너그럽게 받아들이거나 용서해주는 역할을 할 뿐만 아니라, 마음에 안정을 가져다줍니다.";
-    }
-    else if(max == yellow) {
-      var color_result = "노란색";
-      var color_explain = "열린 마음을 상징하는 색으로, 내향적인 성향보다는 외향적인 성향을 드러냅니다. 그러므로, 노란색은 결정장애나 의욕 저하를 겪는 상황에 도움이 됩니다. 피에로의 의상에 노란색이 많이 들어간 이유도 스펀지 밥, 심슨 등 만화 캐릭터가 노란색으로 자주 만들어지는 이유도 이 때문입니다.";
-    }
-    else if(max == green) {
-      var color_result = "녹색";
-      var color_explain = "푸릇푸릇한 대자연을 연상케 해주는 초록색은 마음을 안정시키고 감정의 균형을 이뤄주는 역할을 합니다. 또 의학적으로도 눈의 피로를 덜어주어 시력에 좋은 색이라고 알려져 있으며, 정신건강에 긍정적인 효과를 얻을 수 있기에 우울증 및 스트레스를 받았을 때, 여유를 느끼고 싶을 때 지친 심신에 기운을 북돋워 줄 수 있습니다. 특히, 체내에 축적된 유해한 물질들을 제거해주기 때문에 디톡스와 동일한 효과를 기대할 수 있습니다. 그로 인해, 교감 신경계에도 도움이 됩니다. 균형 있는 상태나 편안함을 원할 때는 초록색을 보는 것을 추천합니다.";
-    }
-    else if(max == blue) {
-      var color_result = "파란색";
-      var color_explain = "차갑지만 차분한 톤으로 들끓었던 화를 가라앉혀 주는 효과를 가진 파란색은 마음을 진정시키고 인내심을 가질 수 있게 도와주는 컬러 중 하나입니다. 특히, 누군가의 호감이 필요할 때, 좋은 성과를 연결하기 위해 용기가 필요할 때, 불안감 및 불면증 해소에 도움이 됩니다. 욕망이 절제된 인상을 주며 스트레스를 줄여주기 때문입니다.";
-    }
-    else if(max == purple) {
-      var color_result = "보라색"
-      var color_explain = "범상치 않은 혼란의 색이라고 알려진 보라색은 부정적인 상황을 긍정적으로 치유하고 싶을 때, 우울증을 앓고 있을 때나 슬플 때 도움을 줍니다. 특히, 보라색은 뇌하수체에 영향을 주기 때문에 호르몬 활동을 통해 직접 사물에 관한 구체적인 지식을 이끄는 효능을 볼 수 있습니다. 그러므로 예술과 이론, 자극과 절제, 이성과 상상이 동시에 필요할 땐 보라색의 영향을 받는 것이 좋습니다.";
-    }
-    else if(max == pink) {
-      var color_result = "분홍색"
-      var color_explain = "누군가에게 기대고 싶을 때, 분홍색은 안정적인 감정을 유지할 수 있도록 따뜻하게 물들여주는 역할을 합니다. 혼란스러운 감정이거나 우울증이 있을 때 포근하고 온순한 기운을 뇌로 공급해 줍니다. 이를 통해, 교감신경계를 자극하여 신경쇠약이나 만성피로, 혼란스러울 때 감정을 추스를 수 있게 도와줍니다.";
-    }
-
-    console.log(max);
-      bigOne6.innerText = color_result + "\n" + color_explain;
-
-        const colorContact = {
-          result_color: color_result,
-        result_explain: color_explain
-      };
-      var d = new Date();
-      firebase.database().ref('anxiety info').child('colortherapy').set(colorContact);
-    });
-
-
-
-
-
+  var bigOne7 = document.getElementById('ColorTherapyAbout');
+  var dbRef7 = firebase.database().ref().child('anxiety information for report').child('SymBmxp1asWBm1GYB3Z8uUibPsD2').child('result_explain');
+  dbRef7.on('value', snap => bigOne7.innerText = snap.val());
+  
 </script>
   </body>
 </html>
