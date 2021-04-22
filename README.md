@@ -14,47 +14,32 @@
 ## Requirements
 - Node.js
 - Firebase Key
+- Dialogflow
+
+※API 관련 내용 링크 참조
+https://github.com/ansehoon1999/WebChatbotAPI
 
 ## Description
-- category menu
+- First Counsel
 
-   4가지 분류(가족, 성, 대인관계, 자기개념)를 바탕으로 각각의 카테고리에 대한 커뮤니티 관찰 가능
+   Dialogflow 챗봇을 통한 STAI 불안 척도 구현으로 불안 정도에 대해서 판단 가능
    
-- writing solution
+   여러 항목의 점수를 바탕으로 컬러테라피 구현 및 안드로이드 어플과 연동
+   
+- Second Counsel
 
-  웹 챗봇을 통해 상담 진행 후에 가능
+  Dialogflow 챗봇을 통한 문장 완성형 검사 구현으로 불안 원인에 대해서 판단 가능
   
-  웹 챗봇을 통해 상담을 진행하고 나면 그 정보다 database에 들어가게 되고 report menu 에서 그 정보를 확인 가능하다
+  내용을 바탕으로 나중에 집단 지성 커뮤니티에 사용됨
   
-  원하는 리스트 항목을 클릭하면 해당 상담에 대해 자신의 생각을 작성 가능
+- Third Counsel
 
-- report detail
-
-  자신이 solution을 작성했다면 community에 올라간 것을 확인 가능
+  딥러닝 기반 챗봇인 KoGPT-2와 node.js 연동으로 자유로운 내용에 대해 상담 가능
   
-  좋아요 버튼 클릭 가능
-  
-  최신순, 인기순 버튼을 통해서 재정렬 가능
-  
-  해당 community 항목 클릭 시 자신의 상담 정보 열람 가능
-
-- Face Recognition
-
-  microsoft의 azure api 사용
-  
-  자신의 얼굴 사진을 찍고 감정에 대해서 분석
-  
-  분석 결과를 통해 감정과 퍼센트를 나타냄
-
 ## Demo App
 
-
-<img src="https://user-images.githubusercontent.com/63048392/114255991-121da480-99f2-11eb-84ca-5a4dae51d699.png" width="200" height="350"> <img src="https://user-images.githubusercontent.com/63048392/114255996-13e76800-99f2-11eb-9704-c531e1c0a39e.png" width="200" height="350"> <img src="https://user-images.githubusercontent.com/63048392/114256087-a7209d80-99f2-11eb-9079-54ad1547d308.png" width="200" height="350"> <img src="https://user-images.githubusercontent.com/63048392/114256080-a25be980-99f2-11eb-805f-dfad0be6b6ff.png" width="200" height="350"> 
-
-
-자세한 페이지에 대해서는 아래 링크를 통해 확인 가능
-
-https://www.youtube.com/watch?v=prTo8yogprE&t=519s
+[![Demo](https://user-images.githubusercontent.com/47246760/114664133-3e109100-9d36-11eb-82fb-34da68113968.png)
+](https://user-images.githubusercontent.com/47246760/114663524-72d01880-9d35-11eb-9c89-e765c3a004d1.mp4 "Demo")
 
 
 ## Firebase Query
@@ -67,175 +52,73 @@ https://www.youtube.com/watch?v=prTo8yogprE&t=519s
 
 ## Migration Guide
 
-### Community Fragment
-- 아래는 기본적인 커뮤니티 코드입니다
-
+### app.js
+- 아래는 3가지 counsel 실행 코드입니다.
 ```c
- context = rootview.getContext();
-        recyclerView = rootview.findViewById(R.id.recylerview); //아디 연결
-        recyclerView.setHasFixedSize(true); //리사이클러뷰 기존성능 강화
-        layoutManger = new LinearLayoutManager(context);
-        recyclerView.setLayoutManager(layoutManger);
-        arrayList = new ArrayList<>(); //User 객체를 담을 어레이 리스트 (어댑터 쪽으로)
-        database = FirebaseDatabase.getInstance(); //파이어베이스 데이터베이스 연동
+ app.post('/send-msg1', (req, res)=>{
 
-        databaseReference = database.getReference("community"); //파이어 베이스에서 user
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // 파이어베이스 데이터베이스의 데이터를 받아오는 곳
-                arrayList.clear(); //기존 배열리스트가 존재하지 않게 초기화
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) { //반복문으로 데이터 list를 추출해냄
-                    community_user user1 = snapshot.getValue(community_user.class); //만들어뒀던 User 객체에 데이터를 담는
-                    arrayList.add(user1); // 담은 데이터들을 배열리스트에 넣고 리사이클러뷰로 보낼 준비
-                }
-                adapter.notifyDataSetChanged(); //리스트 저장 및 새로고침
-            }
+      runSample(req.body.MSG).then(data=>{
+      res.send({Reply:data});
+      const newContact = {
+        request: req.body.MSG,
+        response: data
+      };
+   .
+   .
+   .
+   
+  app.post('/send-msg2', (req,res) => {
+  runSample(req.body.MSG).then(data => {
+    res.send({Reply:data});
+    const newContact = {
+      request: req.body.MSG,
+      response: data
+    };
+    
+   .
+   .
+   .
+   
+  app.post('/send-msg3', (req, res)=>{
+    msg=req.body.MSG;
+    console.log("python1: " + msg);
+      app.post('/', (req2, res2)=>{
+        res2.send({'user':msg});
+            msg2=req2.body.msg;
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-
+    });
+    setTimeout(function() {
+      res.send({Reply:msg2});
+    },3000);
+});   
+      
 ```
 
-- 아래는 커뮤니티를 동작하게 하는 adapter의 코드로 필수적으로 작성이 되어야 합니다.
+- 컬러 테라피 실행 코드는 아래와 같습니다.
 
 ```c
-  adapter = new CustomAdapter(arrayList, context, new CustomAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                final Intent intent = new Intent(view.getContext(), community_detail.class);
-                final String destinationUid = arrayList.get(position).uid;
-                final String date1 = arrayList.get(position).date;
+     if(result < 52 ) {
+    type = '상태 불안이 정상인 편';
+  }
+  else if (result >= 52 && result <= 56 ) {
+    type = '불안 수준이 약간 높은 편';
+  }
+  else if (result >= 57 && result <= 61 ) {
+    type = '불안 수준이 상당히 높은 편';
+  }
+  else if (result >=62) {
+    type = '불안 수준이 매우 높은 편';
+  }
 
-                final Bundle InfoBundle = new Bundle();
-                DestinationUid = destinationUid;
-                databaseReference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) { //반복문으로 데이터 list를 추출해냄
-                            String uid = snapshot.child("uid").getValue(String.class); //uid
-                            String date2 = snapshot.child("date").getValue(String.class); //uid
-
-                            if (uid.equals(destinationUid)&& date1.equals(date2)) {
-                                InfoBundle.putString("destinationUid", destinationUid);
-                                InfoBundle.putString("date", date2);
-                                InfoBundle.putString("writing", snapshot.child("writing").getValue(String.class));
-                                intent.putExtras(InfoBundle);
-
-                                startActivity(intent);
-                                break;
-                            } else {
-                                continue;
-                            }
-                        }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                    }
-                });
-
-
-            }
-        });
-        recyclerView.setAdapter(adapter); //리사이클러뷰에 어댑터 연결
+  if(data.includes('드디어 끝났어! 많은 문항에 대답하느라 수고 많았어 ㅜㅜ 이제 다음으로 넘어가면 결과를 확인할 수 있을거야')) {
+    var max = Math.max(red, orange, yellow, green, blue, purple, pink);
+    if(max == red) {
+      color_result = "빨간색";
+      }
+    else if(max == orange) {}
+   
+   .
+   .
+   .
+   
 ```
-
-
-
-### FaceRecognition Fragment
-- 자신의 얼굴 감정을 인식하기 위해서 카메라 접근을 먼저 허용해야 합니다.
-- 아래는 카메라 접근 허용 코드입니다.
-
-```c
-  if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(FaceRecognitionAcitivity.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-                } else {
-
-                    if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                            == PackageManager.PERMISSION_GRANTED) { // contents }
-                    else { // contents }
-```
-
-- 아래는 Azure로 얼굴 이미지를 보내고 그 이미지에 대해서 감정 분석 결과를 받아오는 코드입니다.
-- Azure API Key가 필수로 입력이 되어야 합니다. 
-
-```c
-  @Override
-            protected void onPostExecute(Face[] faces) {
-                pd.dismiss();
-                Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
-                Gson gson = new Gson();
-                String data = gson.toJson(faces);
-                if (faces == null || faces.length == 0) {
-                    makeToast("No faces detected. You may not have added the API Key or try retaking the picture.");
-                } else {
-                    intent.putExtra("list_faces", data);
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    mBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                    byte[] byteArray = stream.toByteArray();
-
-                    intent.putExtra("image", byteArray);
-                    startActivity(intent);
-                }
-
-            }
-        };
-        detectTask.execute(inputStream);
-    }
-```
-
-
-
-### IotFragment
-- 아래 코드에 자신의 uuid와 blue tooth의 MAC주소를 기입합니다
-```c
-  private static final UUID MY_UUID = UUID.fromString(""); // SPP UUID service
-  private static String address = ""; // MAC-address of Bluetooth module (you must edit this line)
-```
-
-- 아두이노 bluetooth 모듈을 켜서 아래 코드에서 연결 상태를 확인합니다
-```c
- private void checkBTState() {
-        // Check for Bluetooth support and then check to make sure it is turned on
-        // Emulator doesn't support Bluetooth and will return null
-        if(btAdapter==null) {
-            errorExit("Fatal Error", "Bluetooth not support");
-        } else {
-            if (btAdapter.isEnabled()) {
-                Log.d(TAG, "...Bluetooth ON...");
-            } else {
-                //Prompt user to turn on Bluetooth
-                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(enableBtIntent, 1);
-            }
-        }
-    }
-```
-- 아래 코드를 통해서 블루투스와 통신을 하여 색을 바꿔줍니다.
-- 버튼 클릭시 이벤트가 발생해서 대상의 색을 지정해주는 역할을 합니다.
-
-```c
-       h = new Handler() {
-            public void handleMessage(android.os.Message msg) {
-                switch (msg.what) {
-                    case RECIEVE_MESSAGE:
-                        byte[] readBuf = (byte[]) msg.obj;
-                        String strIncom = new String(readBuf, 0, msg.arg1);
-                        sb.append(strIncom);
-                        int endOfLineIndex = sb.indexOf("\r\n");
-                        if (endOfLineIndex > 0) {
-                            String sbprint = sb.substring(0, endOfLineIndex);
-                            sb.delete(0, sb.length());
-                            txtArduino.setText("Data from Arduino: " + sbprint);
-                            if(flag%4==3){
-                                rlayout.setBackgroundColor(Color.rgb(255, 255, 255));
-                            }
-                            else if(flag%4==1){ //R
-                                rlayout.setBackgroundColor(Color.rgb(255, 0, 0));
-                            }
-```
-
-
-
