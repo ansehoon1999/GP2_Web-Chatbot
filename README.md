@@ -16,7 +16,7 @@
 - Firebase Key
 - Dialogflow
 
-※API 관련 내용 링크 참조
+※ API 관련 내용 링크 참조
 https://github.com/ansehoon1999/WebChatbotAPI
 
 ## Description
@@ -49,6 +49,14 @@ https://github.com/ansehoon1999/WebChatbotAPI
 - community: Cause1, date, recommendCount, uid, writing
 - face recognition: myuid, percent, sentiment
 - recommend: (destinationuid: true)
+
+## Install & Explain
+
+API 관련 내용 링크 참조를 통해 설치 방법과 코드 설명을 확인하실 수 있습니다
+
+https://github.com/ansehoon1999/WebChatbotAPI
+
+
 
 ## Migration Guide
 
